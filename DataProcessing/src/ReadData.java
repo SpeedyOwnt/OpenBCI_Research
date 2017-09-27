@@ -1,9 +1,17 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+/**
+ * 
+ * @author Nicholas
+ * @version 1.0
+ * @since 9/25/17
+ */
 public class ReadData {
 	public static void main(String[] args) {
 		String unParsedData = readFile().toString();
@@ -22,11 +30,12 @@ public class ReadData {
 
 			if (Integer.parseInt(splitData[i]) == 0) {
 				// System.out.println(splitData[i]);
-				data = new DataHold(label.toString());
-				label++;
 				if (i != 0) {
 					dataList.add(data);
 				}
+				data = new DataHold(label.toString());
+				label++;
+
 			}
 			if (i + 12 <= splitData.length) {
 				data.getSampleIndex().add(Integer.parseInt(splitData[i]));
@@ -45,23 +54,20 @@ public class ReadData {
 
 				data.getTime().add(LocalTime.parse((splitData[i + 12]).trim(), formatter));
 			}
-			// System.out.println("End row");
 		}
-		System.out.println(dataList.size());
-		for (DataHold a : dataList) {
-			System.out.print(a.getSampleIndex().size() + " ");
-		}
+		System.out.println(dataList.get(0).toString());
 	}
 
+	/**
+	 * 
+	 * @return StringBuilder form of data parsed from data file
+	 */
 	public static StringBuilder readFile() {
 		StringBuilder fileData = new StringBuilder();
 		try {
-			// C:/Users/Nicholas/Documents/College/Senior/Fall 2017/COSC390
-			// Research
-			String fileName = "C:/Users/Nicholas/Documents/College/Senior/Fall 2017/COSC390 Research/OpenBCI-RAW-Wink_Test_2.txt";
-			// "C:/Users/Nicholas/Documents/College/Senior/Fall 2017/COSC390
-			// Research/OpenBCI-RAW-AdJu5_32_9_22.txt";
-			BufferedReader inputBuffer = new BufferedReader(new FileReader(fileName));
+			String currentDirectory = new File("").getAbsolutePath() + "\\dataFiles\\";
+			currentDirectory += chooseFile(currentDirectory);
+			BufferedReader inputBuffer = new BufferedReader(new FileReader(currentDirectory));
 			String input;
 			while ((input = inputBuffer.readLine()) != null) {
 				fileData.append(input.trim());
@@ -76,5 +82,27 @@ public class ReadData {
 			System.out.println("File read error");
 		}
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param currDir
+	 * @return The string name of the file to read data from.
+	 */
+	public static String chooseFile(String currDir) {
+		Scanner kbd = new Scanner(System.in);
+		File folder = new File(currDir);
+		File[] listOfFiles = folder.listFiles();
+		ArrayList<String> fileNames = new ArrayList<String>();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				fileNames.add(listOfFiles[i].getName());
+				System.out.println(i + ". " + listOfFiles[i].getName());
+			}
+		}
+		System.out.print("Enter number corresponding to file to run: ");
+		int chosen = kbd.nextInt();
+		kbd.close();
+		return fileNames.get(chosen);
 	}
 }
