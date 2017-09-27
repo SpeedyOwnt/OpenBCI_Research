@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import data_model.DataHold;
+
 /**
  * 
  * @author Nicholas
