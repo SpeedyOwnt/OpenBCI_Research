@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="DataProcessing/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Justin Snellings/git/OpenBCI_Research/packages/jna-4.2.2.jar"/>
 	<classpathentry kind="output" path="DataProcessing/bin"/>
 </classpath>
